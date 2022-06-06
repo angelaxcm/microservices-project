@@ -15,6 +15,11 @@ public class UpdateWalletRequest {
     @Positive
     private Double balance;
 
+    public UpdateWalletRequest(String userId, Double balance) {
+        this.userId = userId;
+        this.balance = balance;
+    }
+
     public UpdateWalletRequest() {
     }
 }

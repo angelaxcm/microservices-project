@@ -15,6 +15,9 @@ public class CashInRequest {
     @Positive
     private String mobileNumber;
 
+    @NotBlank
+    private String channel;
+
     @NotNull
     private Double cashInAmount;
 

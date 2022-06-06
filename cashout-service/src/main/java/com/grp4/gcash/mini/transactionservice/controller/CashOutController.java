@@ -28,14 +28,13 @@ public class CashOutController {
     @PostMapping("cash-out")
     public CashOutResponse cashOut(@Valid @RequestBody CashOutRequest request) throws InsufficientBalanceException, TransactionException{
         Double Balance = 0.0;
+        ResponseEntity<GetWalletResponse> UserEntity = restTemplate.getForEntity(walletServiceEndpoint + "/wallet/" + request.getMobileNumber(), GetWalletResponse.class);
+        if (UserEntity.getStatusCode().is2xxSuccessful()) {
+            GetWalletResponse User = UserEntity.getBody();
+            Balance = User.getBalance();
+        }
 
         if(sufficientBalance(Balance, request.getCashOutAmount())) {
-
-            ResponseEntity<GetWalletResponse> UserEntity = restTemplate.getForEntity(walletServiceEndpoint + "/wallet/" + request.getMobileNumber(), GetWalletResponse.class);
-            if (UserEntity.getStatusCode().is2xxSuccessful()) {
-                GetWalletResponse User = UserEntity.getBody();
-                Balance = User.getBalance();
-            }
 
             UpdateWalletRequest updateUserWallet = new UpdateWalletRequest(request.getMobileNumber(), Balance - request.getCashOutAmount());
             HttpEntity<UpdateWalletRequest> updateWalletHTTPEntity = new HttpEntity<>(updateUserWallet);

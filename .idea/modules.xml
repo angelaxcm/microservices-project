@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/activity-service/activity-service.iml" filepath="$PROJECT_DIR$/activity-service/activity-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/admin-service/admin-service.iml" filepath="$PROJECT_DIR$/admin-service/admin-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api-payload/api-payload.iml" filepath="$PROJECT_DIR$/api-payload/api-payload.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api-service/api-service.iml" filepath="$PROJECT_DIR$/api-service/api-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cashin-service/cashin-service.iml" filepath="$PROJECT_DIR$/cashin-service/cashin-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cashout-service/cashout-service.iml" filepath="$PROJECT_DIR$/cashout-service/cashout-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/login-service/login-service.iml" filepath="$PROJECT_DIR$/login-service/login-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/microservices-project.iml" filepath="$PROJECT_DIR$/.idea/microservices-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/money-transfer-service/money-transfer-service.iml" filepath="$PROJECT_DIR$/money-transfer-service/money-transfer-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/transaction-service/transaction-service.iml" filepath="$PROJECT_DIR$/transaction-service/transaction-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-service/user-service.iml" filepath="$PROJECT_DIR$/user-service/user-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wallet-service/wallet-service.iml" filepath="$PROJECT_DIR$/wallet-service/wallet-service.iml" />
+    </modules>
+  </component>
+</project>
