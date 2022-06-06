@@ -1,9 +1,6 @@
 package com.grp4.gcash.mini.transactionservice.controller;
 
-import con.tbs.payload.CashOutRequest;
-import con.tbs.payload.CashOutResponse;
-import con.tbs.payload.GetWalletResponse;
-import con.tbs.payload.UpdateWalletRequest;
+import con.tbs.payload.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -19,34 +16,58 @@ public class CashOutController {
 
     private final RestTemplate restTemplate;
     private final String walletServiceEndpoint;
+    private final String activityServiceEndpoint;
 
-    public CashOutController(RestTemplate restTemplate, @Value("${wallet-service.endpoint}") String walletServiceEndpoint) {
+    public CashOutController(RestTemplate restTemplate, @Value("${wallet-service.endpoint}") String walletServiceEndpoint, @Value("${activity-service.endpoint}") String activityServiceEndpoint) {
         this.restTemplate = restTemplate;
         this.walletServiceEndpoint = walletServiceEndpoint;
+        this.activityServiceEndpoint = activityServiceEndpoint;
     }
 
     @PostMapping("cash-out")
     public CashOutResponse cashOut(@Valid @RequestBody CashOutRequest request) throws InsufficientBalanceException, TransactionException{
-        Double Balance = 0.0;
-        ResponseEntity<GetWalletResponse> UserEntity = restTemplate.getForEntity(walletServiceEndpoint + "/wallet/" + request.getMobileNumber(), GetWalletResponse.class);
-        if (UserEntity.getStatusCode().is2xxSuccessful()) {
-            GetWalletResponse User = UserEntity.getBody();
-            Balance = User.getBalance();
+        Double balance = 0.0;
+
+        LogActivity logActivity = new LogActivity();
+
+        //Get user balance
+        ResponseEntity<GetWalletResponse> userEntity = restTemplate.getForEntity(walletServiceEndpoint + "/wallet/" + request.getMobileNumber(), GetWalletResponse.class);
+        if (userEntity.getStatusCode().is2xxSuccessful()) {
+            GetWalletResponse User = userEntity.getBody();
+            balance = User.getBalance();
         }
 
-        if(sufficientBalance(Balance, request.getCashOutAmount())) {
-
-            UpdateWalletRequest updateUserWallet = new UpdateWalletRequest(request.getMobileNumber(), Balance - request.getCashOutAmount());
+        if(sufficientBalance(balance, request.getCashOutAmount())) {
+            //Update user balance
+            UpdateWalletRequest updateUserWallet = new UpdateWalletRequest(request.getMobileNumber(), balance - request.getCashOutAmount());
             HttpEntity<UpdateWalletRequest> updateWalletHTTPEntity = new HttpEntity<>(updateUserWallet);
             ResponseEntity<Void> updateWalletEntity = restTemplate.exchange(walletServiceEndpoint + "/wallet/" + request.getMobileNumber(), HttpMethod.PUT, updateWalletHTTPEntity, Void.class);
             if (updateWalletEntity.getStatusCode().is2xxSuccessful()) {
                 CashOutResponse response =
                         new CashOutResponse(updateUserWallet.getUserId(), request.getCashOutAmount(), updateUserWallet.getBalance());
 
+                logActivity.setAction(LogActivityActions.CASH_OUT_SUCCESSFUL.toString());
+                logActivity.setInformation("userId: " + request.getMobileNumber());
+                logActivity.setIdentity("userId: " + request.getMobileNumber());
+                HttpEntity entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
+
                 return response;
             }
+
+            logActivity.setAction(LogActivityActions.CASH_IN_FAILED.toString());
+            logActivity.setInformation("userId: " + request.getMobileNumber());
+            logActivity.setIdentity("userId: " + request.getMobileNumber());
+            HttpEntity entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
+
             throw new TransactionException("Something Went Wrong");
+
         }
+
+        logActivity.setAction(LogActivityActions.CASH_IN_FAILED.toString());
+        logActivity.setInformation("userId: " + request.getMobileNumber());
+        logActivity.setIdentity("userId: " + request.getMobileNumber());
+        HttpEntity entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
+
         throw new InsufficientBalanceException("Insufficient Balance");
     }
 

@@ -63,6 +63,12 @@ public class UserController {
             throw new UserRegistrationException("Email not available!");
         }
 
+        //Create Wallet
+        CreateWallet createWallet = new CreateWallet(request.getUserId());
+        ResponseEntity<Void> createWalletEntity = restTemplate.postForEntity(walletServiceEndpoint + "/wallet",createWallet, Void.class);
+        if (!createWalletEntity.getStatusCode().is2xxSuccessful()) {
+           throw new UserRegistrationException("HTTP " + createWalletEntity.getStatusCodeValue());
+        }
         User user = new User(request.getUserId(), request.getFirstName(),
                 request.getLastName(),
                 request.getMiddleName(),
@@ -81,13 +87,24 @@ public class UserController {
     @GetMapping("{id}")
     public GetUserResponse getUser(@PathVariable String id) throws UserNotFoundException {
         User user = getThisUser(id);
+        Double balance = null;
+
+        ResponseEntity<GetWalletResponse> senderEntity = restTemplate.getForEntity(walletServiceEndpoint + "/wallet/" + user.getUserId(), GetWalletResponse.class);
+        if (senderEntity.getStatusCode().is2xxSuccessful()) {
+            GetWalletResponse receiver = senderEntity.getBody();
+            balance = receiver.getBalance();
+        }
+
         GetUserResponse response = new GetUserResponse(user.getUserId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getMiddleName(),
                 user.getEmail(),
-                user.getPassword(),
-                getBalance(user.getUserId()));
+                user.getPassword(),balance);
+
+        response.setLastLoggedIn(user.getLastLoggedIn());
+        response.setLastUpdated(user.getLastLoggedIn());
+        response.setDateCreated(user.getDateCreated());
 
         logActivity.setAction(""+LogActivityActions.GET_SUCCESS);
         logActivity.setInformation("mobileNumber: " + id);
@@ -110,6 +127,10 @@ public class UserController {
         userRepository.findAll().forEach(user -> response.getUsers().add(new UserDetails(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName(), getBalance(user.getUserId()), user.getDateCreated())));
 
         return response;
+    }
+
+    public void createWallet(String userId){
+
     }
 
     public Double getBalance(String userId) {

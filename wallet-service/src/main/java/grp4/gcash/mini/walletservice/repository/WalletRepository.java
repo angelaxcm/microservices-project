@@ -1,5 +1,6 @@
 package grp4.gcash.mini.walletservice.repository;
 
+
 import grp4.gcash.mini.walletservice.model.Wallet;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

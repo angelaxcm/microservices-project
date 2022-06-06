@@ -1,8 +1,8 @@
 package grp4.gcash.mini.activityservice.controller;
 
+import con.tbs.payload.GetAllActivitiesResponse;
+import con.tbs.payload.LogActivity;
 import grp4.gcash.mini.activityservice.model.Activity;
-import grp4.gcash.mini.activityservice.payload.GetAllActivitiesResponse;
-import grp4.gcash.mini.activityservice.payload.LogActivity;
 import grp4.gcash.mini.activityservice.repository.ActivityRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

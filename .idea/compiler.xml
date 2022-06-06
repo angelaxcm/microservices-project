@@ -9,8 +9,8 @@
         <module name="api-payload" />
         <module name="login-service" />
         <module name="cashin-service" />
-        <module name="api-service" />
         <module name="money-transfer-service" />
+        <module name="api-service" />
         <module name="activity-service" />
         <module name="transaction-service" />
         <module name="user-service" />
