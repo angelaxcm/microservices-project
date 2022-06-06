@@ -1,14 +1,19 @@
 package com.grp4.gcash.mini.transactionservice.controller;
 
+import com.grp4.gcash.mini.transactionservice.exceptions.ChannelNotFoundException;
+import com.grp4.gcash.mini.transactionservice.exceptions.InsufficientBalanceException;
+import com.grp4.gcash.mini.transactionservice.exceptions.TransactionException;
 import con.tbs.payload.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("transaction")
@@ -25,7 +30,7 @@ public class CashOutController {
     }
 
     @PostMapping("cash-out")
-    public CashOutResponse cashOut(@Valid @RequestBody CashOutRequest request) throws InsufficientBalanceException, TransactionException{
+    public CashOutResponse cashOut(@Valid @RequestBody CashOutRequest request) throws InsufficientBalanceException, TransactionException {
         Double balance = 0.0;
 
         LogActivity logActivity = new LogActivity();
@@ -73,5 +78,21 @@ public class CashOutController {
 
         public boolean sufficientBalance(Double Balance, Double amount){
         return Balance >= amount;
+    }
+
+    @ExceptionHandler(ChannelNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleUserChannelNotFoundException(ChannelNotFoundException e) {
+        return Map.of("error", e.getMessage());
+    }
+    @ExceptionHandler(InsufficientBalanceException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleInsufficientBalanceException(InsufficientBalanceException e) {
+        return Map.of("error", e.getMessage());
+    }
+    @ExceptionHandler(TransactionException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleTransactionException(TransactionException e) {
+        return Map.of("error", e.getMessage());
     }
 }

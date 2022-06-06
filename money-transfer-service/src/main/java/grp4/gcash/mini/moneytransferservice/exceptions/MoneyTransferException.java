@@ -1,4 +1,4 @@
-package grp4.gcash.mini.moneytransferservice.controller;
+package grp4.gcash.mini.moneytransferservice.exceptions;
 
 public class MoneyTransferException extends Exception {
     public MoneyTransferException() {

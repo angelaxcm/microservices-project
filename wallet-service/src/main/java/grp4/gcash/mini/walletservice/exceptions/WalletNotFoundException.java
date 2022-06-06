@@ -1,4 +1,4 @@
-package grp4.gcash.mini.walletservice.controller;
+package grp4.gcash.mini.walletservice.exceptions;
 
 public class WalletNotFoundException extends Exception {
     public WalletNotFoundException() {

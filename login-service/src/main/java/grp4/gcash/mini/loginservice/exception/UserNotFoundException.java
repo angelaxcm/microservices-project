@@ -1,4 +1,4 @@
-package grp4.gcash.mini.loginservice.controller;
+package grp4.gcash.mini.loginservice.exception;
 
 public class UserNotFoundException extends Exception {
     public UserNotFoundException() {

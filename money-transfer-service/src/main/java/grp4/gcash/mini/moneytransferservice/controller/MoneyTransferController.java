@@ -1,9 +1,8 @@
 package grp4.gcash.mini.moneytransferservice.controller;
 
-import con.tbs.payload.GetWalletResponse;
-import con.tbs.payload.MoneyTransferRequest;
-import con.tbs.payload.MoneyTransferResponse;
-import con.tbs.payload.UpdateWalletRequest;
+import con.tbs.payload.*;
+import grp4.gcash.mini.moneytransferservice.exceptions.InsufficentBalanceException;
+import grp4.gcash.mini.moneytransferservice.exceptions.MoneyTransferException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -16,7 +15,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
-@RequestMapping("money-transfer")
+@RequestMapping("transaction")
 public class MoneyTransferController {
     private final RestTemplate restTemplate;
     private final String walletServiceEndpoint;
@@ -30,8 +29,8 @@ public class MoneyTransferController {
         this.activityServiceEndpoint = activityServiceEndpoint;
     }
 
-    @PostMapping
-    public MoneyTransferResponse moneyTransfer(@Valid@RequestBody MoneyTransferRequest request) throws InsufficentBalanceException, MoneyTransferException{
+    @PostMapping("money-transfer")
+    public MoneyTransferResponse moneyTransfer(@Valid@RequestBody MoneyTransferRequest request) throws InsufficentBalanceException, MoneyTransferException {
         Double senderBalance = 0.0;
         Double receiverBalance = 0.0;
         LogActivity logActivity = new LogActivity();

@@ -1,4 +1,4 @@
-package com.grp4.gcash.mini.transactionservice.controller;
+package com.grp4.gcash.mini.transactionservice.exceptions;
 
 public class TransactionException extends Exception{
     public TransactionException() {

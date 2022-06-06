@@ -1,4 +1,4 @@
-package grp4.gcash.mini.walletservice.controller;
+package grp4.gcash.mini.walletservice.exceptions;
 
 public class CreateWalletException extends Exception {
     public CreateWalletException() {

@@ -1,5 +1,10 @@
 package grp4.gcash.mini.walletservice.controller;
 
+import con.tbs.payload.CreateWallet;
+import con.tbs.payload.GetWalletResponse;
+import con.tbs.payload.UpdateWalletRequest;
+import grp4.gcash.mini.walletservice.exceptions.CreateWalletException;
+import grp4.gcash.mini.walletservice.exceptions.WalletNotFoundException;
 import grp4.gcash.mini.walletservice.model.Wallet;
 import grp4.gcash.mini.walletservice.repository.WalletRepository;
 import org.springframework.http.HttpStatus;
@@ -19,7 +24,7 @@ public class WalletController {
     }
 
     @PostMapping
-    public void createWallet (@Valid @RequestBody CreateWallet request) throws CreateWalletException{
+    public void createWallet (@Valid @RequestBody CreateWallet request) throws CreateWalletException {
         if(walletRepository.existsByUserId(request.getUserId())){
             throw new CreateWalletException("Wallet with id " + request.getUserId() + " already exist!");
         }

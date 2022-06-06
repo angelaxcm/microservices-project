@@ -48,16 +48,16 @@ public class UserController {
 
         if (userRepository.existsById(request.getUserId())) {
             logActivity.setAction(""+LogActivityActions.USER_REGISTRATION_FAILED);
-            logActivity.setInformation("mobileNumber: " + request.getUserId() + " email: " + request.getEmail() + " firstName: " + request.getFirstName() + " lastName:" + request.getLastName());
-            logActivity.setIdentity("mobileNumber: " + request.getUserId());
+            logActivity.setInformation("userId: " + request.getUserId() + " email: " + request.getEmail() + " firstName: " + request.getFirstName() + " lastName:" + request.getLastName());
+            logActivity.setIdentity("userId: " + request.getUserId());
             entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
             throw new UserRegistrationException("User already registered!");
         }
 
         if (userRepository.existsByEmail(request.getEmail())) {
             logActivity.setAction(""+LogActivityActions.USER_REGISTRATION_FAILED);
-            logActivity.setInformation("mobileNumber: " + request.getUserId() + " email: " + request.getEmail() + " firstName: " + request.getFirstName() + " lastName:" + request.getLastName());
-            logActivity.setIdentity("mobileNumber: " + request.getUserId());
+            logActivity.setInformation("userId: " + request.getUserId() + " email: " + request.getEmail() + " firstName: " + request.getFirstName() + " lastName:" + request.getLastName());
+            logActivity.setIdentity("userId: " + request.getUserId());
             entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
             throw new UserRegistrationException("Email not available!");
         }
@@ -77,8 +77,8 @@ public class UserController {
         User savedUser = userRepository.save(user);
 
         logActivity.setAction(""+LogActivityActions.USER_REGISTRATION_SUCCESSFUL);
-        logActivity.setInformation("mobileNumber: " + request.getUserId() + " email: " + request.getEmail() + " firstName: " + request.getFirstName() + " lastName:" + request.getLastName());
-        logActivity.setIdentity("mobileNumber: " + request.getUserId());
+        logActivity.setInformation("userId: " + request.getUserId() + " email: " + request.getEmail() + " firstName: " + request.getFirstName() + " lastName:" + request.getLastName());
+        logActivity.setIdentity("userId: " + request.getUserId());
         entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
         return new UserRegistrationResponse(savedUser.getUserId());
     }
@@ -106,8 +106,8 @@ public class UserController {
         response.setDateCreated(user.getDateCreated());
 
         logActivity.setAction(""+LogActivityActions.GET_SUCCESS);
-        logActivity.setInformation("mobileNumber: " + id);
-        logActivity.setIdentity("mobileNumber: " + id);
+        logActivity.setInformation("userId: " + id);
+        logActivity.setIdentity("userId: " + id);
         entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
         return response;
     }
