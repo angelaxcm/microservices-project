@@ -1,11 +1,11 @@
 package grp4.gcash.mini.adminservice.controller;
 
+import con.tbs.payload.GetAllActivitiesResponse;
+import con.tbs.payload.GetAllUsersResponse;
+import con.tbs.payload.LogActivity;
+import con.tbs.payload.UserDetails;
 import grp4.gcash.mini.adminservice.exceptions.GetAllException;
 import grp4.gcash.mini.adminservice.exceptions.InconsistentResultException;
-import grp4.gcash.mini.adminservice.payload.GetAllActivitiesResponse;
-import grp4.gcash.mini.adminservice.payload.GetAllUsersResponse;
-import grp4.gcash.mini.adminservice.payload.LogActivity;
-import grp4.gcash.mini.adminservice.payload.UserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
