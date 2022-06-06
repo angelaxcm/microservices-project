@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping("user")
 public class LoginController {
     private final RestTemplate restTemplate;
     private final PasswordEncoder passwordEncoder;
@@ -30,8 +30,8 @@ public class LoginController {
         this.activityServiceEndpoint = activityServiceEndpoint;
     }
 
-    @PostMapping()
-    public UserLoginResponse login(@Valid @RequestBody UserLoginRequest request) throws UserNotFoundException, UserLoginException {
+    @PostMapping("login")
+    public UserLoginResponse loginUser(@Valid @RequestBody UserLoginRequest request) throws UserNotFoundException, UserLoginException {
 
         LogActivity logActivity = new LogActivity();
         GetUserResponse user = getUser(request.getUserId());

@@ -44,8 +44,8 @@ public class UserController {
         this.walletServiceEndpoint = walletServiceEndpoint;
     }
 
-    @PostMapping
-    public UserRegistrationResponse register(@Valid @RequestBody UserRegistrationRequest request) throws UserRegistrationException {
+    @PostMapping("register")
+    public UserRegistrationResponse registerUser(@Valid @RequestBody UserRegistrationRequest request) throws UserRegistrationException {
 
         if (userRepository.existsById(request.getUserId())) {
             logActivity.setAction(""+LogActivityActions.USER_REGISTRATION_FAILED);
