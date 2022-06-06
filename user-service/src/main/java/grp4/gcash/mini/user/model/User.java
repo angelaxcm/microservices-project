@@ -35,6 +35,7 @@ public class User {
         LocalDateTime now = LocalDateTime.now();
         dateCreated = now;
         lastLoggedIn = now;
+        lastUpdated = now;
     }
 
     @PreUpdate

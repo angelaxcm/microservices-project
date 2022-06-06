@@ -1,5 +1,9 @@
 package grp4.gcash.mini.moneytransferservice.controller;
 
+import con.tbs.payload.GetWalletResponse;
+import con.tbs.payload.MoneyTransferRequest;
+import con.tbs.payload.MoneyTransferResponse;
+import con.tbs.payload.UpdateWalletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
