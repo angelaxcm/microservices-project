@@ -1,0 +1,1262 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "GCash Mini is a financial system that allows a person to send and receive money to someone",
+    "version": "1.0.0",
+    "title": "GCash Mini"
+  },
+  "host": "virtserver.swaggerhub.com",
+  "basePath": "/angelaxcm/GCash-Mini/1.0.0",
+  "tags": [
+    {
+      "name": "user",
+      "description": "User Registration Management"
+    },
+    {
+      "name": "login",
+      "description": "User Login Management"
+    },
+    {
+      "name": "cashin",
+      "description": "Cash in Management"
+    },
+    {
+      "name": "cashout",
+      "description": "Cash out Management"
+    },
+    {
+      "name": "money-transfer",
+      "description": "Money transfer management"
+    },
+    {
+      "name": "wallet",
+      "description": "Balance Management"
+    },
+    {
+      "name": "activity",
+      "description": "Activity Management"
+    },
+    {
+      "name": "admin",
+      "description": "Report Management"
+    },
+    {
+      "name": "api"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": [
+          "api-service"
+        ],
+        "summary": "Registration of user.",
+        "operationId": "register",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Registration of User",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRegistrationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login succesful.",
+            "schema": {
+              "$ref": "#/definitions/UserRegistrationResponse"
+            }
+          },
+          "404": {
+            "description": "Registration failed, user already registered."
+          },
+          "500": {
+            "description": "Something went wrong with the server."
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "api-service"
+        ],
+        "summary": "Login authentication of user.",
+        "operationId": "login",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login Authentication of User",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login succesful.",
+            "schema": {
+              "$ref": "#/definitions/UserLoginResponse"
+            }
+          },
+          "404": {
+            "description": "Login failed."
+          },
+          "500": {
+            "description": "Something went wrong with the server."
+          }
+        }
+      }
+    },
+    "/money-transfer": {
+      "post": {
+        "tags": [
+          "api-service"
+        ],
+        "summary": "Money transfer from sender to receiver.",
+        "operationId": "moneyTransfer",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "MoneyTransferRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MoneyTransferRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Money transfer succesful.",
+            "schema": {
+              "$ref": "#/definitions/MoneyTransferResponse"
+            }
+          },
+          "404": {
+            "description": "Money transfer failed."
+          },
+          "500": {
+            "description": "Something went wrong with the server."
+          }
+        }
+      }
+    },
+    "/cash-in": {
+      "post": {
+        "tags": [
+          "api-service"
+        ],
+        "summary": "Cash in of user.",
+        "operationId": "cashIn",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Cash in of User",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CashInRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cash in succesful.",
+            "schema": {
+              "$ref": "#/definitions/CashInResponse"
+            }
+          },
+          "404": {
+            "description": "Cash in failed."
+          },
+          "500": {
+            "description": "Something went wrong with the server."
+          }
+        }
+      }
+    },
+    "/cash-out": {
+      "post": {
+        "tags": [
+          "api-service"
+        ],
+        "summary": "Remove Money to User",
+        "operationId": "cashOut",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Cash out of User",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CashOutRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cash out succesful.",
+            "schema": {
+              "$ref": "#/definitions/CashOutResponse"
+            }
+          },
+          "404": {
+            "description": "Cash out failed."
+          },
+          "500": {
+            "description": "Something went wrong with the server."
+          }
+        }
+      }
+    },
+    "/activity/{id}": {
+      "get": {
+        "tags": [
+          "api-service"
+        ],
+        "summary": "Gets all activities of a specific user.",
+        "operationId": "getMyActivities",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieve activity of user succesful.",
+            "schema": {
+              "$ref": "#/definitions/GetAllActivitiesResponse"
+            }
+          },
+          "404": {
+            "description": "Retrieve activity of user failed."
+          },
+          "500": {
+            "description": "Something went wrong with the server."
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "register an account",
+        "operationId": "registerUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details needed in creating an account.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRegistrationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Account successfully created.",
+            "schema": {
+              "$ref": "#/definitions/UserRegistrationResponse"
+            }
+          },
+          "400": {
+            "description": "Mobile number already registered."
+          },
+          "500": {
+            "description": "Something went wrong creating the account."
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Obtain user details",
+        "operationId": "getUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get user successful.",
+            "schema": {
+              "$ref": "#/definitions/GetUserResponse"
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Something went wrong getting the user."
+          }
+        }
+      }
+    },
+    "/user/login/{id}": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "operationId": "userLogin",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User not found."
+          },
+          "500": {
+            "description": "Something went wrong."
+          }
+        }
+      }
+    },
+    "/user/all": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Retrieve all user",
+        "operationId": "getAllUsers",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Retrieve all users succesful.",
+            "schema": {
+              "$ref": "#/definitions/GetAllUsersResponse"
+            }
+          },
+          "500": {
+            "description": "Something went wrong during retrieval."
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Login to account.",
+        "operationId": "loginUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details needed loging in.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful.",
+            "schema": {
+              "$ref": "#/definitions/UserLoginResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid credentials."
+          },
+          "500": {
+            "description": "Something went wrong logging in."
+          }
+        }
+      }
+    },
+    "/transaction/cash-in": {
+      "post": {
+        "tags": [
+          "cashin"
+        ],
+        "summary": "Add money to account.",
+        "operationId": "userCashIn",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details needed during cash in.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CashInRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cash in request successful.",
+            "schema": {
+              "$ref": "#/definitions/CashInResponse"
+            }
+          },
+          "404": {
+            "description": "Mobile Number Not Found."
+          },
+          "500": {
+            "description": "Wrong Channel Type"
+          }
+        }
+      }
+    },
+    "/transaction/cash-out": {
+      "post": {
+        "tags": [
+          "cashout"
+        ],
+        "summary": "Withdraw Money From Account",
+        "operationId": "userCashOut",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details needed during cash out.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CashOutRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cash out request successful.",
+            "schema": {
+              "$ref": "#/definitions/CashOutResponse"
+            }
+          },
+          "400": {
+            "description": "Insufficient balance."
+          },
+          "404": {
+            "description": "Mobile number not found."
+          },
+          "500": {
+            "description": "Something went wrong during cash out."
+          }
+        }
+      }
+    },
+    "/transactions/money-transfer": {
+      "post": {
+        "tags": [
+          "money-transfer"
+        ],
+        "summary": "Transfer money from one user to another",
+        "operationId": "transfer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details needed during transfer",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/MoneyTransferRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transfer money request successful.",
+            "schema": {
+              "$ref": "#/definitions/MoneyTransferResponse"
+            }
+          },
+          "400": {
+            "description": "Insufficient balance."
+          },
+          "404": {
+            "description": "Mobile number not found."
+          },
+          "500": {
+            "description": "Something went wrong during transfer."
+          }
+        }
+      }
+    },
+    "/wallet": {
+      "post": {
+        "tags": [
+          "wallet"
+        ],
+        "summary": "create a user wallet",
+        "operationId": "createWallet",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details needed in creating an wallet.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateWallet"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Wallet successfully created."
+          },
+          "400": {
+            "description": "Wallet already existing."
+          },
+          "500": {
+            "description": "Something went wrong creating the wallet."
+          }
+        }
+      }
+    },
+    "/wallet/{id}": {
+      "get": {
+        "tags": [
+          "wallet"
+        ],
+        "summary": "Get user wallet",
+        "operationId": "getWallet",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User wallet successfully retrieved.",
+            "schema": {
+              "$ref": "#/definitions/GetWalletResponse"
+            }
+          },
+          "404": {
+            "description": "User wallet not found, User not found."
+          },
+          "500": {
+            "description": "Something went wrong getting the wallet."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "wallet"
+        ],
+        "summary": "Update user wallet",
+        "operationId": "updateWallet",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details needed in updating wallet.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateWalletRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User wallet successfully updated."
+          },
+          "404": {
+            "description": "User wallet not found, User not found."
+          },
+          "500": {
+            "description": "Something went wrong updating the wallet."
+          }
+        }
+      }
+    },
+    "/activity": {
+      "post": {
+        "tags": [
+          "activity"
+        ],
+        "summary": "Log activity",
+        "operationId": "log",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Activity details for logging",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LogActivity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Log activity successful."
+          },
+          "500": {
+            "description": "Something went wrong during logging."
+          }
+        }
+      }
+    },
+    "/activity/all": {
+      "get": {
+        "tags": [
+          "activity"
+        ],
+        "summary": "Retrieve all activities",
+        "operationId": "getAllActivities",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Retrieve all activities succesful.",
+            "schema": {
+              "$ref": "#/definitions/GetAllActivitiesResponse"
+            }
+          },
+          "500": {
+            "description": "Something went wrong during retrieval."
+          }
+        }
+      }
+    },
+    "/activity/search": {
+      "get": {
+        "tags": [
+          "activity"
+        ],
+        "summary": "Retrieve activities based on query",
+        "operationId": "search",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "word to be filtered in the activities.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieve activities succesful.",
+            "schema": {
+              "$ref": "#/definitions/GetAllActivitiesResponse"
+            }
+          },
+          "500": {
+            "description": "Something went wrong during retrieval."
+          }
+        }
+      }
+    },
+    "/admin/all-users": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Retrieve all users",
+        "operationId": "retrieveAllUsers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Retrieve all users succesful.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserDetails"
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong during retrieval."
+          }
+        }
+      }
+    },
+    "/admin/search-users": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Retrieve users based on query",
+        "operationId": "retrieveUsers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "word to be filtered in the user details.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieve users succesful.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserDetails"
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong during retrieval."
+          }
+        }
+      }
+    },
+    "/admin/all-activities": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Retrieve all activities",
+        "operationId": "retrieveAllActivities",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Retrieve all activities succesful.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LogActivity"
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong during retrieval."
+          }
+        }
+      }
+    },
+    "/admin/search-activities": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Retrieve activities based on query",
+        "operationId": "retrieveActivities",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "word to be filtered in the activities.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieve activities succesful.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LogActivity"
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong during retrieval."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserRegistrationRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "john.doe@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123qwerty"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "middleName": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string",
+          "example": "9.123456789E10"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "UserRegistrationResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9.123456789E10"
+        }
+      }
+    },
+    "UserLoginRequest": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9.123456789E10"
+        },
+        "password": {
+          "type": "string",
+          "example": "123qwerty"
+        }
+      }
+    },
+    "UserLoginResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9.123456789E10"
+        },
+        "lastLoggedIn": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2022-06-06T16:09:55.000+0000"
+        }
+      }
+    },
+    "UserDetails": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9.123456789E10"
+        },
+        "email": {
+          "type": "string",
+          "example": "john.doe@gmail.com"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "balance": {
+          "type": "number",
+          "format": "double",
+          "example": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2022-06-06T16:09:55.000+0000"
+        }
+      }
+    },
+    "GetUserResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9.123456789E10"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "middleName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "john.doe@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123qwerty"
+        },
+        "balance": {
+          "type": "number",
+          "format": "double",
+          "example": 100
+        },
+        "lastLoggedIn": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2022-06-06T16:09:55.000+0000"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2022-06-06T16:09:55.000+0000"
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2022-06-06T16:09:55.000+0000"
+        }
+      }
+    },
+    "CashInRequest": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "channel": {
+          "type": "string"
+        },
+        "cashInAmmount": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "xml": {
+        "name": "CashInRequest"
+      }
+    },
+    "CashInResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "cashInAmmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "balance": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "xml": {
+        "name": "CashInResponse"
+      }
+    },
+    "CashOutRequest": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "cashOutAmmount": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "xml": {
+        "name": "CashOutRequest"
+      }
+    },
+    "CashOutResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "cashOutAmmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "balance": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "xml": {
+        "name": "CashOutResponse"
+      }
+    },
+    "MoneyTransferRequest": {
+      "type": "object",
+      "properties": {
+        "senderId": {
+          "type": "string",
+          "example": "9.688515895E9"
+        },
+        "receiverId": {
+          "type": "string",
+          "example": "9.776564247E9"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "example": 100
+        },
+        "message": {
+          "type": "string",
+          "example": "sana masaya ka!"
+        }
+      },
+      "xml": {
+        "name": "MoneyTransferRequest (edited)"
+      }
+    },
+    "MoneyTransferResponse": {
+      "type": "object",
+      "properties": {
+        "senderId": {
+          "type": "string"
+        },
+        "receiverId": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "MoneyTransferResponse"
+      }
+    },
+    "CreateWallet": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9.776564247E9"
+        }
+      }
+    },
+    "GetWalletResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9.776564247E9"
+        },
+        "balance": {
+          "type": "number",
+          "format": "double",
+          "example": 100
+        }
+      }
+    },
+    "UpdateWalletRequest": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9.776564247E9"
+        },
+        "balance": {
+          "type": "number",
+          "format": "double",
+          "example": 100
+        }
+      }
+    },
+    "LogActivity": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "information": {
+          "type": "string"
+        },
+        "identity": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "LogActivity"
+      }
+    },
+    "LogActivityActions": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "USER_REGISTRATION_SUCCESSFUL",
+            "USER_REGISTRATION_FAILED",
+            "AUTHENTICATION_SUCCESSFUL",
+            "AUTHENTICATION_FAILED",
+            "CASH_IN_SUCCESSFUL",
+            "CASH_IN_FAILED",
+            "CASH_OUT_SUCCESSFUL",
+            "CASH_OUT_FAILED",
+            "TRANSFER_SUCCESSFUL",
+            "TRANSFER_FAILED",
+            "GET_SUCCESS",
+            "GET_FAILED"
+          ]
+        }
+      }
+    },
+    "GetAllUsersResponse": {
+      "type": "object",
+      "properties": {
+        "currentUsers": {
+          "type": "number",
+          "format": "long"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserDetails"
+          }
+        }
+      }
+    },
+    "GetAllActivitiesResponse": {
+      "type": "object",
+      "properties": {
+        "currentActivitiesCount": {
+          "type": "number",
+          "format": "long"
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LogActivity"
+          }
+        }
+      }
+    }
+  }
+}

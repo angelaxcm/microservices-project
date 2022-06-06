@@ -15,8 +15,10 @@ import org.springframework.web.client.RestTemplate;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("user")
@@ -125,6 +127,32 @@ public class UserController {
         GetAllUsersResponse response = new GetAllUsersResponse(userRepository.count(), new ArrayList<>());
         userRepository.findAll().forEach(user -> response.getUsers().add(new UserDetails(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName(), getBalance(user.getUserId()), user.getDateCreated())));
 
+        return response;
+    }
+
+    @GetMapping("search")
+    public GetAllUsersResponse search(@RequestParam(name = "q", required = false, defaultValue = "") String query) {
+        List<UserDetails> users = new ArrayList<>();
+
+        Consumer<User> userConsumer = user -> {
+            Double balance = null;
+            ResponseEntity<GetWalletResponse> senderEntity = restTemplate.getForEntity(walletServiceEndpoint + "/wallet/" + user.getUserId(), GetWalletResponse.class);
+            if (senderEntity.getStatusCode().is2xxSuccessful()) {
+                GetWalletResponse receiver = senderEntity.getBody();
+                balance = receiver.getBalance();
+            }
+
+            users.add(new UserDetails(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName(), balance, user.getDateCreated()));
+        };
+        if (query.isBlank()) {
+            userRepository.findAll()
+                    .forEach(userConsumer);
+        } else {
+            userRepository.findAllByUserIdContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(query, query, query)
+                    .forEach(userConsumer);
+        }
+
+        GetAllUsersResponse response = new GetAllUsersResponse((long) users.size(), users);
         return response;
     }
 

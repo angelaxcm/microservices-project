@@ -1,0 +1,2 @@
+Link to Swagger-UI:
+https://app.swaggerhub.com/apis-docs/angelaxcm/GCash-Mini/1.0.0}
