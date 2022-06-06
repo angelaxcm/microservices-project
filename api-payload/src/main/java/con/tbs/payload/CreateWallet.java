@@ -9,6 +9,9 @@ public class CreateWallet {
     @NotBlank
     private String userId;
 
+    public CreateWallet(String userId) {
+    this.userId = userId;
+    }
     public CreateWallet() {
     }
 }

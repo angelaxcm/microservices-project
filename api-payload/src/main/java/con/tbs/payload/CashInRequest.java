@@ -13,7 +13,7 @@ public class CashInRequest {
     @NotBlank
     @Size(min=10, max=11)
     @Positive
-    private String mobileNumber;
+    private String userId;
 
     @NotBlank
     private String channel;

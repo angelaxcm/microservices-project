@@ -6,12 +6,12 @@ import lombok.Data;
 public class CashInResponse {
 
 
-    private String mobileNumber;
+    private String userId;
     private Double cashInAmount;
     private Double balance;
 
     public CashInResponse(String mobileNumber, Double cashInAmount, Double balance) {
-        this.mobileNumber = mobileNumber;
+        this.userId = mobileNumber;
         this.cashInAmount = cashInAmount;
         this.balance = balance;
     }
