@@ -31,7 +31,7 @@ public class CashOutController {
         LogActivity logActivity = new LogActivity();
 
         //Get user balance
-        ResponseEntity<GetWalletResponse> userEntity = restTemplate.getForEntity(walletServiceEndpoint + "/wallet/" + request.getMobileNumber(), GetWalletResponse.class);
+        ResponseEntity<GetWalletResponse> userEntity = restTemplate.getForEntity(walletServiceEndpoint + "/wallet/" + request.getUserId(), GetWalletResponse.class);
         if (userEntity.getStatusCode().is2xxSuccessful()) {
             GetWalletResponse User = userEntity.getBody();
             balance = User.getBalance();
@@ -39,24 +39,24 @@ public class CashOutController {
 
         if(sufficientBalance(balance, request.getCashOutAmount())) {
             //Update user balance
-            UpdateWalletRequest updateUserWallet = new UpdateWalletRequest(request.getMobileNumber(), balance - request.getCashOutAmount());
+            UpdateWalletRequest updateUserWallet = new UpdateWalletRequest(request.getUserId(), balance - request.getCashOutAmount());
             HttpEntity<UpdateWalletRequest> updateWalletHTTPEntity = new HttpEntity<>(updateUserWallet);
-            ResponseEntity<Void> updateWalletEntity = restTemplate.exchange(walletServiceEndpoint + "/wallet/" + request.getMobileNumber(), HttpMethod.PUT, updateWalletHTTPEntity, Void.class);
+            ResponseEntity<Void> updateWalletEntity = restTemplate.exchange(walletServiceEndpoint + "/wallet/" + request.getUserId(), HttpMethod.PUT, updateWalletHTTPEntity, Void.class);
             if (updateWalletEntity.getStatusCode().is2xxSuccessful()) {
                 CashOutResponse response =
                         new CashOutResponse(updateUserWallet.getUserId(), request.getCashOutAmount(), updateUserWallet.getBalance());
 
                 logActivity.setAction(LogActivityActions.CASH_OUT_SUCCESSFUL.toString());
-                logActivity.setInformation("userId: " + request.getMobileNumber());
-                logActivity.setIdentity("userId: " + request.getMobileNumber());
+                logActivity.setInformation("userId: " + request.getUserId());
+                logActivity.setIdentity("userId: " + request.getUserId());
                 HttpEntity entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
 
                 return response;
             }
 
             logActivity.setAction(LogActivityActions.CASH_IN_FAILED.toString());
-            logActivity.setInformation("userId: " + request.getMobileNumber());
-            logActivity.setIdentity("userId: " + request.getMobileNumber());
+            logActivity.setInformation("userId: " + request.getUserId());
+            logActivity.setIdentity("userId: " + request.getUserId());
             HttpEntity entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
 
             throw new TransactionException("Something Went Wrong");
@@ -64,8 +64,8 @@ public class CashOutController {
         }
 
         logActivity.setAction(LogActivityActions.CASH_IN_FAILED.toString());
-        logActivity.setInformation("userId: " + request.getMobileNumber());
-        logActivity.setIdentity("userId: " + request.getMobileNumber());
+        logActivity.setInformation("userId: " + request.getUserId());
+        logActivity.setIdentity("userId: " + request.getUserId());
         HttpEntity entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
 
         throw new InsufficientBalanceException("Insufficient Balance");

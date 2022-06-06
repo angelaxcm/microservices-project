@@ -28,11 +28,12 @@ public class CashInController {
     }
 
     @PostMapping("cash-in")
-    public CashInResponse cashIn(@Valid @RequestBody CashInRequest request) throws TransactionException, ChanneNotFoundException {
+    public CashInResponse cashIn(@Valid @RequestBody CashInRequest request) throws TransactionException, ChannelNotFoundException {
         Double balance = 0.0;
 
         LogActivity logActivity = new LogActivity();
 
+        //Get user balance
         if (request.getChannel().equals("OTC") || request.getChannel().equals("TOPUP")) {
             ResponseEntity<GetWalletResponse> userEntity = restTemplate.getForEntity(walletServiceEndpoint + "/wallet/" + request.getUserId(), GetWalletResponse.class);
             if (userEntity.getStatusCode().is2xxSuccessful()) {
@@ -40,6 +41,7 @@ public class CashInController {
                 balance = User.getBalance();
             }
 
+            //Update user balance
             UpdateWalletRequest updateUserWallet = new UpdateWalletRequest(request.getUserId(), balance + request.getCashInAmount());
             HttpEntity<UpdateWalletRequest> updateWalletHTTPEntity = new HttpEntity<>(updateUserWallet);
             ResponseEntity<Void> updateWalletEntity = restTemplate.exchange(walletServiceEndpoint + "/wallet/" + request.getUserId(), HttpMethod.PUT, updateWalletHTTPEntity, Void.class);
@@ -69,6 +71,6 @@ public class CashInController {
         logActivity.setIdentity("userId: " + request.getUserId());
         HttpEntity entity = restTemplate.postForEntity(activityServiceEndpoint + "/activity", logActivity, LogActivity.class);
 
-        throw new ChanneNotFoundException("Wrong Channel Type");
+        throw new ChannelNotFoundException("Wrong Channel Type");
     }
 }

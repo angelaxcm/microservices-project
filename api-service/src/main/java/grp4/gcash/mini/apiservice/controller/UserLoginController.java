@@ -3,7 +3,6 @@ package grp4.gcash.mini.apiservice.controller;
 import con.tbs.payload.UserLoginRequest;
 import con.tbs.payload.UserLoginResponse;
 import grp4.gcash.mini.apiservice.exceptions.UserLoginException;
-import grp4.gcash.mini.apiservice.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +26,7 @@ public class UserLoginController {
 
     @PostMapping()
     public UserLoginResponse login(@Valid @RequestBody UserLoginRequest request) throws UserLoginException {
-        ResponseEntity<UserLoginResponse> responseEntity = restTemplate.postForEntity(loginServiceEndpoint + "/login", request, UserLoginResponse.class);
+        ResponseEntity<UserLoginResponse> responseEntity = restTemplate.postForEntity(loginServiceEndpoint + "/user/login", request, UserLoginResponse.class);
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
 
             return responseEntity.getBody();

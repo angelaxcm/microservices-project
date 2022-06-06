@@ -26,7 +26,7 @@ public class UserRegistrationController {
 
     @PostMapping
     public UserRegistrationResponse register(@Valid @RequestBody UserRegistrationRequest request) throws UserRegistrationException {
-        ResponseEntity<UserRegistrationResponse> responseEntity = restTemplate.postForEntity(userServiceEndpoint + "/user", request, UserRegistrationResponse.class);
+        ResponseEntity<UserRegistrationResponse> responseEntity = restTemplate.postForEntity(userServiceEndpoint + "/user/register", request, UserRegistrationResponse.class);
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
 
             return responseEntity.getBody();

@@ -27,7 +27,7 @@ public class MoneyTransferController {
     @PostMapping
     public MoneyTransferResponse moneyTransfer(@Valid @RequestBody MoneyTransferRequest request) throws MoneyTransferFailedException {
         //TODO
-        ResponseEntity<MoneyTransferResponse> response = restTemplate.postForEntity(moneyTransferServiceEndpoint + "/money-transfer", request, MoneyTransferResponse.class);
+        ResponseEntity<MoneyTransferResponse> response = restTemplate.postForEntity(moneyTransferServiceEndpoint + "/transaction/money-transfer", request, MoneyTransferResponse.class);
         if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();
         }

@@ -12,7 +12,7 @@ public class CashOutRequest {
 
     @NotBlank
     @Size(min=10, max=11)
-    private String mobileNumber;
+    private String userId;
 
     @NotNull
     @Positive

@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public class CashOutResponse {
 
-    private String mobileNumber;
+    private String userId;
     private Double cashOutAmount;
     private Double balance;
 
-    public CashOutResponse(String mobileNumber, Double cashOutAmount, Double balance) {
-        this.mobileNumber = mobileNumber;
+    public CashOutResponse(String userId, Double cashOutAmount, Double balance) {
+        this.userId = userId;
         this.balance = balance;
         this.cashOutAmount = cashOutAmount;
     }
